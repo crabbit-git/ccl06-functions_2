@@ -34,19 +34,21 @@ def print_tasks(filter, min_time = None):
 def find_task(query):
     task_list = [task for task in tasks if task["description"].casefold().__contains__(query.casefold())]
     if task_list == []:
-        print("\nSorry, it doesn't look like that's on the list at the moment!\n")
+        print("\nSorry, it doesn't look like that's on the list at the moment!")
+        return
     elif len(task_list) > 1:
         print("\nMultiple matches found:\n")
         print_handsomely(task_list)
-        print("\nPlease try a more specific query.\n")
+        print("\nPlease try a more specific query.")
+        return
     else:
         return task_list
 
 def mark_complete():
     query = input("\nWhich task would you like to mark as done?\n")
-    print()
     search_results = find_task(query)
     if search_results == None:
+        goto_menu()
         return
     for task in search_results:
         incomplete_task = task
@@ -58,7 +60,7 @@ def mark_complete():
             "time_taken": time
         }
     tasks[tasks.index(incomplete_task)] = task_complete
-    print(f"\n{task_complete['description']} has been marked as completed!\n")
+    print(f"\n{task_complete['description']} has been marked as completed!")
     goto_menu()
 
 def add_task():
@@ -73,6 +75,8 @@ def add_task():
     print(f"\n{new_task_desc} ({new_task_time} minutes) has been added to the list!")
     goto_menu()
 
+print("Welcome to your To Do List!\n")
+
 selection = None
 while selection != "q":
     print("Menu:")
@@ -83,13 +87,16 @@ while selection != "q":
     print("5: Get Tasks Which Take Longer Than a Given Time")
     print("6: Find Task by Description")
     print("7: Add a new Task to list")
-    print("M or m: Display this menu")
+    # print("M or m: Display this menu")
+    # I have intentionally broken the above "show menu" option because I don't see a way of implementing it straightforwardly without causing
+    # bigger problems in the code than not being able to get to the menu without re-running the program: specifically, you'd be unable to
+    # search for just the letter "m", which is a potentially useful thing to be able to do.
+    # If I were to implement it as intended, it would presumably require another while loop ("while selection != 'm':").
     print("Q or q: Quit")
     selection = input("\nWhat would you like to do?\n").casefold()
 
 #list_tasks() # Pass this True to get list of completed tasks, False for incomplete ones, "long" for longwinded tasks, or nothing to get full list
 
-# So for MVP:
 # 1. Print list of incomplete tasks:
     if selection == "2":
         print("\nTasks still to be done:\n")
@@ -112,9 +119,12 @@ while selection != "q":
 # 5. Print any task with a given description (casefolded search term rather than requiring exact match):
     if selection == "6":
         query = input("\nWhich task are you looking for?\n")
-        print("\nThe following task matches your search query:\n") # blank line for spacing, no other reason
-        print_handsomely(find_task(query))
-        goto_menu()
+        if find_task(query) == None:
+            goto_menu()
+        else:
+            print("\nThe following task matches your search query:\n") # blank line for spacing, no other reason
+            print_handsomely(find_task(query))
+            goto_menu()
 # 6. Given a description, update that task to mark it as complete:
     if selection == "4":
         mark_complete()
