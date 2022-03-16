@@ -124,7 +124,7 @@ while selection != "q":
         if find_task(query) == None:
             goto_menu()
         else:
-            print("\nThe following task matches your search query:\n") # blank line for spacing, no other reason
+            print("\nThe following task matches your search query:\n")
             print_handsomely(find_task(query))
             goto_menu()
 # 6. Given a description, update that task to mark it as complete:
