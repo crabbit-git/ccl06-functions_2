@@ -80,23 +80,25 @@ print("Welcome to your To Do List!\n")
 selection = None
 while selection != "q":
     print("Menu:")
-    print("1: Display All Tasks")
-    print("2: Display Uncompleted Tasks")
-    print("3: Display Completed Tasks")
-    print("4: Mark Task as Complete")
-    print("5: Get Tasks Which Take Longer Than a Given Time")
-    print("6: Find Task by Description")
-    print("7: Add a new Task to list")
-    # print("M or m: Display this menu")
+    print("1: Display all tasks")
+    print("2: Display uncompleted tasks")
+    print("3: Display completed tasks")
+    print("4: Mark task as complete")
+    print("5: Display tasks which take longer than a given amount of time")
+    print("6: Find task by description")
+    print("7: Add a new task to the list")
+    print("M or m: Display this menu")
     # I have intentionally broken the above "show menu" option because I don't see a way of implementing it straightforwardly without causing
     # bigger problems in the code than not being able to get to the menu without re-running the program: specifically, you'd be unable to
     # search for just the letter "m", which is a potentially useful thing to be able to do.
-    # If I were to implement it as intended, it would presumably require another while loop ("while selection != 'm':").
+    # If I were to implement it as I'm guessing was intended, it would presumably require another while loop ("while selection != 'm':").
+    # For now, I've just kept it isolated to the main selection input, which renders it pretty useless because you should already be able to see
+    # the menu from there except for really weird scenarios like having just cleared the terminal.
     print("Q or q: Quit")
     selection = input("\nWhat would you like to do?\n").casefold()
 
-#list_tasks() # Pass this True to get list of completed tasks, False for incomplete ones, "long" for longwinded tasks, or nothing to get full list
-
+    if selection == "M".casefold():
+        goto_menu()
 # 1. Print list of incomplete tasks:
     if selection == "2":
         print("\nTasks still to be done:\n")
